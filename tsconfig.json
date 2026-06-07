@@ -9,11 +9,11 @@
     "moduleResolution": "NodeNext",
     "noUncheckedIndexedAccess": true,
     "outDir": "dist",
-    "rootDir": "src",
+    "rootDir": ".",
     "skipLibCheck": true,
     "strict": true,
     "target": "ES2024",
     "types": ["node"]
   },
-  "include": ["src"]
+  "include": ["src", "vite.config.ts"]
 }
