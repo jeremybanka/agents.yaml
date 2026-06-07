@@ -2,13 +2,13 @@ import { defineConfig } from 'vite-plus'
 
 export default defineConfig({
   fmt: {
-    ignorePatterns: ['dist/**', 'node_modules/**'],
+    ignorePatterns: ['**/dist/**', '**/node_modules/**'],
     semi: false,
     singleQuote: true,
     sortPackageJson: true,
   },
   lint: {
-    ignorePatterns: ['dist/**', 'node_modules/**'],
+    ignorePatterns: ['**/dist/**', '**/node_modules/**'],
     options: {
       typeAware: true,
       typeCheck: true,
@@ -18,6 +18,6 @@ export default defineConfig({
     '*': 'vp check --fix',
   },
   test: {
-    include: ['src/**/*.test.ts'],
+    include: ['packages/*/src/**/*.test.ts'],
   },
 })

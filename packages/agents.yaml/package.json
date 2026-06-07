@@ -1,0 +1,40 @@
+{
+  "name": "agents.yaml",
+  "version": "0.1.0",
+  "description": "A CLI for discovering and curating agent-readable documentation in agents.yaml.",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jeremybanka/agents.yaml.git"
+  },
+  "bin": {
+    "agents": "./dist/index.mjs"
+  },
+  "files": [
+    "dist",
+    "src",
+    "README.md",
+    "AGENTS.md"
+  ],
+  "type": "module",
+  "scripts": {
+    "build": "tsdown",
+    "dev": "src/index.ts",
+    "typecheck": "tsc --noEmit",
+    "check": "tsc --noEmit && tsdown"
+  },
+  "dependencies": {
+    "@clack/prompts": "1.5.1",
+    "yaml": "2.9.0",
+    "zod": "4.4.3"
+  },
+  "devDependencies": {
+    "@types/node": "25.9.2",
+    "tsdown": "0.22.2",
+    "typescript": "6.0.3"
+  },
+  "engines": {
+    "node": "26.3.0",
+    "pnpm": "11.5.2"
+  },
+  "packageManager": "pnpm@11.5.2"
+}

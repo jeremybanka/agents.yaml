@@ -1,4 +1,3 @@
 version: 1
 documents:
   - path: ./node_modules/vite-plus/AGENTS.md
-  - path: ./packages/agents.yaml/AGENTS.md

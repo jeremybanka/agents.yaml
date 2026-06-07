@@ -1,40 +1,19 @@
 {
-  "name": "agents.yaml",
-  "version": "0.1.0",
-  "description": "A CLI for discovering and curating agent-readable documentation in agents.yaml.",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/jeremybanka/agents.yaml.git"
-  },
-  "bin": {
-    "agents": "./dist/index.mjs"
-  },
-  "files": [
-    "dist",
-    "src",
-    "README.md",
-    "AGENTS.md"
-  ],
+  "name": "agents.yaml-workspace",
+  "private": true,
   "type": "module",
   "scripts": {
-    "build": "tsdown",
-    "dev": "src/index.ts",
+    "build": "pnpm --filter agents.yaml build",
+    "check": "vp check && vp test && pnpm --filter agents.yaml check",
     "fmt": "vp fmt",
     "fmt:check": "vp fmt --check",
     "lint": "vp lint",
     "staged": "vp staged",
     "test": "vp test",
-    "typecheck": "tsc --noEmit",
-    "check": "vp check && vp test && tsdown"
-  },
-  "dependencies": {
-    "@clack/prompts": "1.5.1",
-    "yaml": "2.9.0",
-    "zod": "4.4.3"
+    "typecheck": "pnpm --filter agents.yaml typecheck"
   },
   "devDependencies": {
     "@types/node": "25.9.2",
-    "tsdown": "0.22.2",
     "typescript": "6.0.3",
     "vite": "npm:@voidzero-dev/vite-plus-core@0.1.24",
     "vite-plus": "0.1.24",
