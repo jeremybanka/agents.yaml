@@ -2,6 +2,10 @@
   "name": "agents.yaml",
   "version": "0.1.0",
   "description": "A CLI for discovering and curating agent-readable documentation in agents.yaml.",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jeremybanka/agents.yaml.git"
+  },
   "bin": {
     "agents": "./dist/index.mjs"
   },
