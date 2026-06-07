@@ -24,7 +24,6 @@ describe('agents.yaml dependency discovery', () => {
     await addDocuments(root, [
       {
         path: discovered[0]!.path,
-        reason: 'Direct dependency guidance',
       },
     ])
 
@@ -33,7 +32,6 @@ describe('agents.yaml dependency discovery', () => {
       documents: [
         {
           path: './node_modules/direct-lib/AGENTS.md',
-          reason: 'Direct dependency guidance',
         },
       ],
     })

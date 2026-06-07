@@ -6,7 +6,6 @@ import { resolveFromRoot } from './paths.ts'
 
 export type AgentsDocumentEntry = {
   path: string
-  reason: string
 }
 
 export type AgentsFile = {
@@ -25,7 +24,6 @@ const fileSchema = z.object({
   documents: z.array(
     z.object({
       path: z.string().min(1),
-      reason: z.string().min(1),
     }),
   ),
 })
@@ -59,7 +57,7 @@ export async function loadAgentsFile(root: string): Promise<AgentsFile> {
 export async function saveAgentsFile(root: string, file: AgentsFile): Promise<void> {
   const normalized = {
     version: file.version,
-    documents: file.documents.map((doc) => ({ path: doc.path, reason: doc.reason })),
+    documents: file.documents.map((doc) => ({ path: doc.path })),
   }
 
   await writeFile(agentsPath(root), YAML.stringify(normalized, { lineWidth: 0 }), 'utf8')

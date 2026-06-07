@@ -17,7 +17,7 @@ pnpm run build
 ```sh
 agents init
 agents discover
-agents add ./node_modules/react/AGENTS.md --reason "React component, hooks, and rendering guidance"
+agents add ./node_modules/react/AGENTS.md
 agents validate
 ```
 
@@ -30,7 +30,6 @@ version: 1
 
 documents:
   - path: ./node_modules/react/AGENTS.md
-    reason: React component, hooks, and rendering guidance
 ```
 
 Add this breadcrumb to your root `AGENTS.md`:

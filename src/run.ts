@@ -23,7 +23,7 @@ Usage:
   agents
   agents init [--force]
   agents discover [--json]
-  agents add <path...> --reason <text>
+  agents add <path...>
   agents remove <path...>
   agents validate [--json]
 
@@ -50,7 +50,7 @@ export async function run(argv: string[]): Promise<void> {
       await commandDiscover(root, parsed.flags.get('json') === true)
       return
     case 'add':
-      await commandAdd(root, parsed.values, readStringFlag(parsed.flags, 'reason'))
+      await commandAdd(root, parsed.values)
       return
     case 'remove':
       await commandRemove(root, parsed.values)
@@ -88,13 +88,6 @@ function parseArgs(argv: string[]): ParsedArgs {
         continue
       }
 
-      const next = argv[index + 1]
-      if (next && !next.startsWith('-') && rawName === 'reason') {
-        flags.set(rawName, next)
-        index += 1
-        continue
-      }
-
       flags.set(rawName, true)
       continue
     }
@@ -112,11 +105,6 @@ function parseArgs(argv: string[]): ParsedArgs {
 
 function isCommand(value: string): value is Command {
   return ['add', 'discover', 'help', 'init', 'remove', 'validate', 'version'].includes(value)
-}
-
-function readStringFlag(flags: Map<string, string | boolean>, name: string): string | undefined {
-  const value = flags.get(name)
-  return typeof value === 'string' ? value : undefined
 }
 
 async function commandInit(root: string, force: boolean): Promise<void> {
@@ -140,26 +128,21 @@ async function commandDiscover(root: string, json: boolean): Promise<void> {
   }
 
   clack.note(documents.map((doc) => doc.path).join('\n'), `Found ${documents.length}`)
-  clack.outro('Use agents add <path> --reason <text> to enable one.')
+  clack.outro('Use agents add <path> to enable one.')
 }
 
-async function commandAdd(root: string, paths: string[], reason?: string): Promise<void> {
+async function commandAdd(root: string, paths: string[]): Promise<void> {
   if (paths.length === 0) {
     throw new Error('add requires at least one AGENTS.md path')
   }
 
-  const finalReason = reason ?? 'Relevant project or dependency guidance'
   const documents = paths.map((path) => ({
     path: formatProjectPath(root, resolveFromRoot(root, path)),
-    reason: finalReason,
   }))
 
   const file = await addDocuments(root, documents)
   clack.intro('agents add')
-  clack.note(
-    file.documents.map((doc) => `${doc.path} - ${doc.reason}`).join('\n'),
-    'Active documents',
-  )
+  clack.note(file.documents.map((doc) => doc.path).join('\n'), 'Active documents')
   clack.outro(`Added ${documents.length} document${documents.length === 1 ? '' : 's'}.`)
 }
 
@@ -246,15 +229,5 @@ async function interactive(root: string): Promise<void> {
     return
   }
 
-  const reason = await clack.text({
-    message: 'Reason to record for these documents',
-    placeholder: 'Dependency-specific guidance',
-  })
-
-  if (clack.isCancel(reason)) {
-    clack.cancel('Cancelled.')
-    return
-  }
-
-  await commandAdd(root, selected, String(reason || 'Dependency-specific guidance'))
+  await commandAdd(root, selected)
 }
