@@ -1,6 +1,6 @@
 import { access, readFile, writeFile } from 'node:fs/promises'
 import path from 'node:path'
-import YAML from 'yaml'
+import * as YAML from 'yaml'
 import { z } from 'zod'
 import { resolveFromRoot } from './paths.js'
 
