@@ -1,0 +1,51 @@
+import { opendir } from 'node:fs/promises'
+import path from 'node:path'
+import { formatProjectPath } from './paths.js'
+
+export type DiscoveredDocument = {
+  path: string
+}
+
+const skippedDirectories = new Set([
+  '.git',
+  '.hg',
+  '.svn',
+  '.turbo',
+  '.next',
+  'coverage',
+  'dist',
+  'build'
+])
+
+export async function discoverAgentDocuments(root: string): Promise<DiscoveredDocument[]> {
+  const found: DiscoveredDocument[] = []
+  await walk(root, root, found)
+  return found
+    .filter((document) => document.path !== './AGENTS.md')
+    .sort((left, right) => left.path.localeCompare(right.path))
+}
+
+async function walk(root: string, directory: string, found: DiscoveredDocument[]): Promise<void> {
+  let handle
+  try {
+    handle = await opendir(directory)
+  } catch {
+    return
+  }
+
+  for await (const entry of handle) {
+    const absolutePath = path.join(directory, entry.name)
+
+    if (entry.isDirectory()) {
+      if (!skippedDirectories.has(entry.name)) {
+        await walk(root, absolutePath, found)
+      }
+      continue
+    }
+
+    if (entry.isFile() && entry.name === 'AGENTS.md') {
+      found.push({ path: formatProjectPath(root, absolutePath) })
+    }
+  }
+}
+
