@@ -2,7 +2,6 @@
   "name": "agents.yaml",
   "version": "0.1.0",
   "description": "A CLI for discovering and curating agent-readable documentation in agents.yaml.",
-  "type": "module",
   "bin": {
     "agents": "./dist/index.mjs"
   },
@@ -11,18 +10,18 @@
     "README.md",
     "AGENTS.md"
   ],
+  "type": "module",
   "scripts": {
     "build": "tsdown",
     "dev": "tsx src/index.ts",
+    "fmt": "vp fmt",
+    "fmt:check": "vp fmt --check",
+    "lint": "vp lint",
+    "staged": "vp staged",
     "test": "vp test",
     "typecheck": "tsc --noEmit",
-    "check": "tsc --noEmit && vp test && tsdown"
+    "check": "vp check && vp test && tsdown"
   },
-  "engines": {
-    "node": ">=26.0.0",
-    "pnpm": ">=11.0.0"
-  },
-  "packageManager": "pnpm@11.0.0",
   "dependencies": {
     "@clack/prompts": "1.5.1",
     "yaml": "2.9.0",
@@ -35,5 +34,10 @@
     "typescript": "6.0.3",
     "vite-plus": "0.1.24",
     "vitest": "4.1.8"
-  }
+  },
+  "engines": {
+    "node": ">=26.0.0",
+    "pnpm": ">=11.0.0"
+  },
+  "packageManager": "pnpm@11.0.0"
 }

@@ -7,4 +7,3 @@ run(process.argv.slice(2)).catch((error: unknown) => {
   console.error(`agents: ${message}`)
   process.exitCode = 1
 })
-

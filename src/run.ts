@@ -1,5 +1,11 @@
 import * as clack from '@clack/prompts'
-import { addDocuments, initProject, loadAgentsFile, removeDocuments, validateAgentsFile } from './agents-file.js'
+import {
+  addDocuments,
+  initProject,
+  loadAgentsFile,
+  removeDocuments,
+  validateAgentsFile,
+} from './agents-file.js'
 import { discoverAgentDocuments } from './discover.js'
 import { cwd, formatProjectPath, resolveFromRoot } from './paths.js'
 
@@ -145,12 +151,15 @@ async function commandAdd(root: string, paths: string[], reason?: string): Promi
   const finalReason = reason ?? 'Relevant project or dependency guidance'
   const documents = paths.map((path) => ({
     path: formatProjectPath(root, resolveFromRoot(root, path)),
-    reason: finalReason
+    reason: finalReason,
   }))
 
   const file = await addDocuments(root, documents)
   clack.intro('agents add')
-  clack.note(file.documents.map((doc) => `${doc.path} - ${doc.reason}`).join('\n'), 'Active documents')
+  clack.note(
+    file.documents.map((doc) => `${doc.path} - ${doc.reason}`).join('\n'),
+    'Active documents',
+  )
   clack.outro(`Added ${documents.length} document${documents.length === 1 ? '' : 's'}.`)
 }
 
@@ -163,7 +172,9 @@ async function commandRemove(root: string, paths: string[]): Promise<void> {
   const result = await removeDocuments(root, normalizedPaths)
   clack.intro('agents remove')
   clack.note(result.removed.join('\n') || 'No matching documents were active.', 'Removed')
-  clack.outro(`agents.yaml now has ${result.file.documents.length} active document${result.file.documents.length === 1 ? '' : 's'}.`)
+  clack.outro(
+    `agents.yaml now has ${result.file.documents.length} active document${result.file.documents.length === 1 ? '' : 's'}.`,
+  )
 }
 
 async function commandValidate(root: string, json: boolean): Promise<void> {
@@ -194,8 +205,8 @@ async function interactive(root: string): Promise<void> {
     options: [
       { value: 'discover', label: 'Discover and enable AGENTS.md files' },
       { value: 'validate', label: 'Validate agents.yaml' },
-      { value: 'init', label: 'Initialize breadcrumb files' }
-    ]
+      { value: 'init', label: 'Initialize breadcrumb files' },
+    ],
   })
 
   if (clack.isCancel(action)) {
@@ -215,7 +226,9 @@ async function interactive(root: string): Promise<void> {
 
   const existing = await loadAgentsFile(root)
   const discovered = await discoverAgentDocuments(root)
-  const candidates = discovered.filter((doc) => !existing.documents.some((active) => active.path === doc.path))
+  const candidates = discovered.filter(
+    (doc) => !existing.documents.some((active) => active.path === doc.path),
+  )
 
   if (candidates.length === 0) {
     clack.outro('No inactive supplemental AGENTS.md files found.')
@@ -225,7 +238,7 @@ async function interactive(root: string): Promise<void> {
   const selected = await clack.multiselect({
     message: 'Choose documents to enable',
     options: candidates.map((doc) => ({ value: doc.path, label: doc.path })),
-    required: false
+    required: false,
   })
 
   if (clack.isCancel(selected) || selected.length === 0) {
@@ -235,7 +248,7 @@ async function interactive(root: string): Promise<void> {
 
   const reason = await clack.text({
     message: 'Reason to record for these documents',
-    placeholder: 'Dependency-specific guidance'
+    placeholder: 'Dependency-specific guidance',
   })
 
   if (clack.isCancel(reason)) {

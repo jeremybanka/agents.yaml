@@ -24,8 +24,8 @@ describe('agents.yaml dependency discovery', () => {
     await addDocuments(root, [
       {
         path: discovered[0]!.path,
-        reason: 'Direct dependency guidance'
-      }
+        reason: 'Direct dependency guidance',
+      },
     ])
 
     await expect(loadAgentsFile(root)).resolves.toEqual({
@@ -33,23 +33,32 @@ describe('agents.yaml dependency discovery', () => {
       documents: [
         {
           path: './node_modules/direct-lib/AGENTS.md',
-          reason: 'Direct dependency guidance'
-        }
-      ]
+          reason: 'Direct dependency guidance',
+        },
+      ],
     })
   })
 
   it('does not discover an indirect dependency that has an AGENTS.md', async () => {
     const root = await createTempProject()
     const directAgentsPath = path.join(root, 'node_modules', 'direct-lib', 'AGENTS.md')
-    const indirectAgentsPath = path.join(root, 'node_modules', 'direct-lib', 'node_modules', 'indirect-lib', 'AGENTS.md')
+    const indirectAgentsPath = path.join(
+      root,
+      'node_modules',
+      'direct-lib',
+      'node_modules',
+      'indirect-lib',
+      'AGENTS.md',
+    )
 
     await mkdir(path.dirname(directAgentsPath), { recursive: true })
     await mkdir(path.dirname(indirectAgentsPath), { recursive: true })
     await writeFile(directAgentsPath, '# Direct dependency guidance\n', 'utf8')
     await writeFile(indirectAgentsPath, '# Indirect dependency guidance\n', 'utf8')
 
-    await expect(discoverAgentDocuments(root)).resolves.toEqual([{ path: './node_modules/direct-lib/AGENTS.md' }])
+    await expect(discoverAgentDocuments(root)).resolves.toEqual([
+      { path: './node_modules/direct-lib/AGENTS.md' },
+    ])
   })
 })
 

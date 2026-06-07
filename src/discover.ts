@@ -14,7 +14,7 @@ const skippedDirectories = new Set([
   '.next',
   'coverage',
   'dist',
-  'build'
+  'build',
 ])
 
 export async function discoverAgentDocuments(root: string): Promise<DiscoveredDocument[]> {
@@ -54,7 +54,11 @@ async function walk(root: string, directory: string, found: DiscoveredDocument[]
   }
 }
 
-async function scanDirectNodeModules(root: string, nodeModulesPath: string, found: DiscoveredDocument[]): Promise<void> {
+async function scanDirectNodeModules(
+  root: string,
+  nodeModulesPath: string,
+  found: DiscoveredDocument[],
+): Promise<void> {
   let handle
   try {
     handle = await opendir(nodeModulesPath)
@@ -77,7 +81,11 @@ async function scanDirectNodeModules(root: string, nodeModulesPath: string, foun
   }
 }
 
-async function scanScopedPackages(root: string, scopePath: string, found: DiscoveredDocument[]): Promise<void> {
+async function scanScopedPackages(
+  root: string,
+  scopePath: string,
+  found: DiscoveredDocument[],
+): Promise<void> {
   let handle
   try {
     handle = await opendir(scopePath)
@@ -92,7 +100,11 @@ async function scanScopedPackages(root: string, scopePath: string, found: Discov
   }
 }
 
-async function addPackageAgentsDocument(root: string, packagePath: string, found: DiscoveredDocument[]): Promise<void> {
+async function addPackageAgentsDocument(
+  root: string,
+  packagePath: string,
+  found: DiscoveredDocument[],
+): Promise<void> {
   const agentsPath = path.join(packagePath, 'AGENTS.md')
   try {
     await access(agentsPath)

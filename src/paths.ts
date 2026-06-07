@@ -16,4 +16,3 @@ export function formatProjectPath(root: string, target: string): string {
 
   return relative.startsWith('.') ? relative : `./${relative}`
 }
-

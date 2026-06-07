@@ -7,6 +7,5 @@ export default defineConfig({
   format: 'esm',
   platform: 'node',
   target: 'node26',
-  shims: true
+  shims: true,
 })
-

@@ -2,7 +2,7 @@ import { access, readFile, writeFile } from 'node:fs/promises'
 import path from 'node:path'
 import YAML from 'yaml'
 import { z } from 'zod'
-import { formatProjectPath, resolveFromRoot } from './paths.js'
+import { resolveFromRoot } from './paths.js'
 
 export type AgentsDocumentEntry = {
   path: string
@@ -25,9 +25,9 @@ const fileSchema = z.object({
   documents: z.array(
     z.object({
       path: z.string().min(1),
-      reason: z.string().min(1)
-    })
-  )
+      reason: z.string().min(1),
+    }),
+  ),
 })
 
 const breadcrumb = `For dependency-specific and supplemental guidance, consult \`./agents.yaml\`.
@@ -47,7 +47,9 @@ export async function loadAgentsFile(root: string): Promise<AgentsFile> {
     }
 
     if (error instanceof z.ZodError) {
-      throw new Error(`Invalid agents.yaml: ${error.issues.map((issue) => issue.message).join(', ')}`)
+      throw new Error(
+        `Invalid agents.yaml: ${error.issues.map((issue) => issue.message).join(', ')}`,
+      )
     }
 
     throw error
@@ -57,13 +59,16 @@ export async function loadAgentsFile(root: string): Promise<AgentsFile> {
 export async function saveAgentsFile(root: string, file: AgentsFile): Promise<void> {
   const normalized = {
     version: file.version,
-    documents: file.documents.map((doc) => ({ path: doc.path, reason: doc.reason }))
+    documents: file.documents.map((doc) => ({ path: doc.path, reason: doc.reason })),
   }
 
   await writeFile(agentsPath(root), YAML.stringify(normalized, { lineWidth: 0 }), 'utf8')
 }
 
-export async function addDocuments(root: string, documents: AgentsDocumentEntry[]): Promise<AgentsFile> {
+export async function addDocuments(
+  root: string,
+  documents: AgentsDocumentEntry[],
+): Promise<AgentsFile> {
   const file = await loadAgentsFile(root)
   const byPath = new Map(file.documents.map((doc) => [doc.path, doc]))
 
@@ -73,14 +78,17 @@ export async function addDocuments(root: string, documents: AgentsDocumentEntry[
 
   const next = {
     version: 1 as const,
-    documents: [...byPath.values()].sort((left, right) => left.path.localeCompare(right.path))
+    documents: [...byPath.values()].sort((left, right) => left.path.localeCompare(right.path)),
   }
 
   await saveAgentsFile(root, next)
   return next
 }
 
-export async function removeDocuments(root: string, paths: string[]): Promise<{ file: AgentsFile; removed: string[] }> {
+export async function removeDocuments(
+  root: string,
+  paths: string[],
+): Promise<{ file: AgentsFile; removed: string[] }> {
   const file = await loadAgentsFile(root)
   const pathSet = new Set(paths)
   const removed: string[] = []
@@ -109,7 +117,7 @@ export async function validateAgentsFile(root: string): Promise<ValidationResult
     return {
       ok: false,
       errors: [error instanceof Error ? error.message : String(error)],
-      warnings
+      warnings,
     }
   }
 
@@ -145,11 +153,14 @@ export async function validateAgentsFile(root: string): Promise<ValidationResult
   return {
     ok: errors.length === 0,
     errors,
-    warnings
+    warnings,
   }
 }
 
-export async function initProject(root: string, options: { force: boolean }): Promise<{ messages: string[] }> {
+export async function initProject(
+  root: string,
+  options: { force: boolean },
+): Promise<{ messages: string[] }> {
   const messages: string[] = []
 
   try {
@@ -168,7 +179,10 @@ export async function initProject(root: string, options: { force: boolean }): Pr
       return { messages }
     }
 
-    const next = source.trimEnd().length === 0 ? `# Project Instructions\n\n${breadcrumb}\n` : `${source.trimEnd()}\n\n${breadcrumb}\n`
+    const next =
+      source.trimEnd().length === 0
+        ? `# Project Instructions\n\n${breadcrumb}\n`
+        : `${source.trimEnd()}\n\n${breadcrumb}\n`
     await writeFile(projectAgentsPath, next, 'utf8')
     messages.push('updated AGENTS.md')
   } catch (error) {
@@ -187,4 +201,3 @@ function agentsPath(root: string): string {
 function isNotFound(error: unknown): boolean {
   return error instanceof Error && 'code' in error && error.code === 'ENOENT'
 }
-
