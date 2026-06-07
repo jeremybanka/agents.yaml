@@ -8,6 +8,7 @@
     "lib": ["ES2024"],
     "module": "NodeNext",
     "moduleResolution": "NodeNext",
+    "noEmit": true,
     "noUncheckedIndexedAccess": true,
     "outDir": "dist",
     "rootDir": ".",
