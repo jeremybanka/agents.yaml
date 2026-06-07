@@ -5,9 +5,9 @@ import {
   loadAgentsFile,
   removeDocuments,
   validateAgentsFile,
-} from './agents-file.js'
-import { discoverAgentDocuments } from './discover.js'
-import { cwd, formatProjectPath, resolveFromRoot } from './paths.js'
+} from './agents-file.ts'
+import { discoverAgentDocuments } from './discover.ts'
+import { cwd, formatProjectPath, resolveFromRoot } from './paths.ts'
 
 type Command = 'add' | 'discover' | 'help' | 'init' | 'remove' | 'validate' | 'version'
 

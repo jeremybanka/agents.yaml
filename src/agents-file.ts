@@ -2,7 +2,7 @@ import { access, readFile, writeFile } from 'node:fs/promises'
 import path from 'node:path'
 import * as YAML from 'yaml'
 import { z } from 'zod'
-import { resolveFromRoot } from './paths.js'
+import { resolveFromRoot } from './paths.ts'
 
 export type AgentsDocumentEntry = {
   path: string

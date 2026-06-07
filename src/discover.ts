@@ -1,6 +1,6 @@
 import { access, opendir } from 'node:fs/promises'
 import path from 'node:path'
-import { formatProjectPath } from './paths.js'
+import { formatProjectPath } from './paths.ts'
 
 export type DiscoveredDocument = {
   path: string

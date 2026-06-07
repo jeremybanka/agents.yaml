@@ -2,8 +2,8 @@ import { mkdir, mkdtemp, rm, writeFile } from 'node:fs/promises'
 import { tmpdir } from 'node:os'
 import path from 'node:path'
 import { afterEach, describe, expect, it } from 'vitest'
-import { addDocuments, loadAgentsFile } from './agents-file.js'
-import { discoverAgentDocuments } from './discover.js'
+import { addDocuments, loadAgentsFile } from './agents-file.ts'
+import { discoverAgentDocuments } from './discover.ts'
 
 const tempRoots: string[] = []
 
