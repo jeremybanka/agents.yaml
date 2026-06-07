@@ -40,8 +40,8 @@
     "vitest": "4.1.8"
   },
   "engines": {
-    "node": ">=26.0.0",
-    "pnpm": ">=11.0.0"
+    "node": "26.3.0",
+    "pnpm": "11.5.2"
   },
-  "packageManager": "pnpm@11.0.0"
+  "packageManager": "pnpm@11.5.2"
 }
