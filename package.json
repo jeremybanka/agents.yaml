@@ -17,7 +17,7 @@
   "type": "module",
   "scripts": {
     "build": "tsdown",
-    "dev": "tsx src/index.ts",
+    "dev": "src/index.ts",
     "fmt": "vp fmt",
     "fmt:check": "vp fmt --check",
     "lint": "vp lint",
@@ -34,7 +34,6 @@
   "devDependencies": {
     "@types/node": "25.6.0",
     "tsdown": "0.22.2",
-    "tsx": "4.22.4",
     "typescript": "6.0.3",
     "vite-plus": "0.1.24",
     "vitest": "4.1.8"

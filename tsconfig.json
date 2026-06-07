@@ -3,6 +3,7 @@
     "allowSyntheticDefaultImports": true,
     "declaration": true,
     "declarationMap": true,
+    "erasableSyntaxOnly": true,
     "exactOptionalPropertyTypes": true,
     "lib": ["ES2024"],
     "module": "NodeNext",
