@@ -2,6 +2,7 @@ packages:
   - packages/*
 
 allowBuilds:
+  dprint: true
   esbuild: true
 
 blockExoticSubdeps: true
@@ -12,5 +13,5 @@ peerDependencyRules:
     - vite
     - vitest
   allowedVersions:
-    vite: '*'
-    vitest: '*'
+    vite: "*"
+    vitest: "*"
