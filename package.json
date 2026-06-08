@@ -3,7 +3,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "build": "pnpm --filter agents.yaml build",
+    "build": "vp run -r build",
     "change": "changeset",
     "check": "vp check && vp test && pnpm --filter agents.yaml check",
     "fmt": "vp fmt",
@@ -11,7 +11,7 @@
     "lint": "vp lint",
     "release": "pnpm build && changeset publish",
     "staged": "vp staged",
-    "test": "vp test",
+    "test": "vp run -r test",
     "typecheck": "pnpm --filter agents.yaml typecheck"
   },
   "devDependencies": {

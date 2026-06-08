@@ -17,10 +17,9 @@
   ],
   "type": "module",
   "scripts": {
-    "build": "tsdown",
+    "build": "vp pack",
     "dev": "src/index.ts",
-    "typecheck": "tsc --noEmit",
-    "check": "tsc --noEmit && tsdown"
+    "test": "vp test"
   },
   "dependencies": {
     "@clack/prompts": "1.5.1",
@@ -29,7 +28,6 @@
   },
   "devDependencies": {
     "@types/node": "25.9.2",
-    "tsdown": "0.22.2",
     "typescript": "6.0.3"
   },
   "engines": {
