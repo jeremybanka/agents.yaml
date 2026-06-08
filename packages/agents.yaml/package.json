@@ -1,6 +1,6 @@
 {
 	"name": "agents.yaml",
-	"version": "0.2.0",
+	"version": "0.2.1",
 	"description": "A CLI for discovering and curating agent-readable documentation in agents.yaml.",
 	"repository": {
 		"type": "git",

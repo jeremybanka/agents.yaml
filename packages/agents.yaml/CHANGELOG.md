@@ -1,5 +1,11 @@
 # agents.yaml
 
+## 0.2.1
+
+### Patch Changes
+
+- aaf54f5: Show a visible cursor marker for the active document in the interactive enable picker.
+
 ## 0.2.0
 
 ### Minor Changes
