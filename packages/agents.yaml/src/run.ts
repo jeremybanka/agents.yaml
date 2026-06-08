@@ -1,4 +1,6 @@
+import { MultiSelectPrompt } from "@clack/core"
 import * as clack from "@clack/prompts"
+import { styleText } from "node:util"
 import {
 	addDocuments,
 	initProject,
@@ -22,6 +24,12 @@ type ParsedArgs = {
 	command: Command | undefined
 	values: string[]
 	flags: Map<string, string | boolean>
+}
+
+type DocumentOption = {
+	value: string
+	label: string
+	disabled?: boolean
 }
 
 const helpText = `agents
@@ -257,16 +265,68 @@ async function interactive(root: string): Promise<void> {
 		return
 	}
 
-	const selected = await clack.multiselect({
-		message: "Choose documents to enable",
-		options: candidates.map((doc) => ({ value: doc.path, label: doc.path })),
-		required: false,
-	})
+	const selected = await chooseDocumentsToEnable(
+		candidates.map((doc) => ({ value: doc.path, label: doc.path })),
+	)
 
-	if (clack.isCancel(selected) || selected.length === 0) {
+	if (
+		clack.isCancel(selected) ||
+		selected === undefined ||
+		selected.length === 0
+	) {
 		clack.cancel("No documents selected.")
 		return
 	}
 
 	await commandAdd(root, selected)
+}
+
+function chooseDocumentsToEnable(
+	options: DocumentOption[],
+): Promise<string[] | symbol | undefined> {
+	return new MultiSelectPrompt<DocumentOption>({
+		options,
+		required: false,
+		render() {
+			const prefix = `${styleText("cyan", clack.S_BAR)}  `
+			const selected = this.value ?? []
+
+			return `${styleText("gray", clack.S_BAR)}
+${clack.symbol(this.state)}  Choose documents to enable
+${prefix}${clack.limitOptions({
+				options: this.options,
+				cursor: this.cursor,
+				columnPadding: prefix.length,
+				style: (option, active) =>
+					styleDocumentOption(option, {
+						active,
+						selected: selected.includes(option.value),
+					}),
+			}).join(`
+${prefix}`)}
+${styleText("cyan", clack.S_BAR_END)}
+`
+		},
+	}).prompt()
+}
+
+function styleDocumentOption(
+	option: DocumentOption,
+	state: { active: boolean; selected: boolean },
+): string {
+	if (option.disabled) {
+		return `${styleText("gray", clack.S_CHECKBOX_INACTIVE)} ${styleText(
+			["strikethrough", "gray"],
+			option.label,
+		)}`
+	}
+
+	const checkbox = state.selected
+		? styleText("green", clack.S_CHECKBOX_SELECTED)
+		: state.active
+			? styleText("cyan", clack.S_CHECKBOX_ACTIVE)
+			: styleText("dim", clack.S_CHECKBOX_INACTIVE)
+	const cursor = state.active ? styleText("cyan", ">") : " "
+	const label = state.active ? option.label : styleText("dim", option.label)
+	return `${cursor} ${checkbox} ${label}`
 }
