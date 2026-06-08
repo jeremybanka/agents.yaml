@@ -30,9 +30,7 @@ const fileSchema = z.object({
   ),
 })
 
-const breadcrumb = `For dependency-specific and supplemental guidance, consult \`./agents.yaml\`.
-
-Only the documents listed there should be considered active external guidance for this project.`
+const breadcrumb = `Consult \`./agents.yaml\` when working with outside dependencies.`
 
 export async function loadAgentsFile(root: string): Promise<AgentsFile> {
   const filePath = agentsPath(root)
