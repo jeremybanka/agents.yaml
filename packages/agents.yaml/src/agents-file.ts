@@ -6,6 +6,7 @@ import { resolveFromRoot } from './paths.ts'
 
 export type AgentsDocumentEntry = {
   path: string
+  description?: string | undefined
 }
 
 export type AgentsFile = {
@@ -24,13 +25,12 @@ const fileSchema = z.object({
   documents: z.array(
     z.object({
       path: z.string().min(1),
+      description: z.string().min(1).optional(),
     }),
   ),
 })
 
-const breadcrumb = `For dependency-specific and supplemental guidance, consult \`./agents.yaml\`.
-
-Only the documents listed there should be considered active external guidance for this project.`
+const breadcrumb = `Consult \`./agents.yaml\` when working with outside dependencies.`
 
 export async function loadAgentsFile(root: string): Promise<AgentsFile> {
   const filePath = agentsPath(root)
@@ -57,7 +57,10 @@ export async function loadAgentsFile(root: string): Promise<AgentsFile> {
 export async function saveAgentsFile(root: string, file: AgentsFile): Promise<void> {
   const normalized = {
     version: file.version,
-    documents: file.documents.map((doc) => ({ path: doc.path })),
+    documents: file.documents.map((doc) => ({
+      path: doc.path,
+      ...(doc.description ? { description: doc.description } : {}),
+    })),
   }
 
   await writeFile(agentsPath(root), YAML.stringify(normalized, { lineWidth: 0 }), 'utf8')
@@ -71,7 +74,12 @@ export async function addDocuments(
   const byPath = new Map(file.documents.map((doc) => [doc.path, doc]))
 
   for (const document of documents) {
-    byPath.set(document.path, document)
+    const existing = byPath.get(document.path)
+    byPath.set(document.path, {
+      path: document.path,
+      ...(existing?.description ? { description: existing.description } : {}),
+      ...(document.description ? { description: document.description } : {}),
+    })
   }
 
   const next = {

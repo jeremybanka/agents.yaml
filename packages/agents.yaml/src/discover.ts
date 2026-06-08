@@ -1,9 +1,10 @@
-import { access, opendir } from 'node:fs/promises'
+import { access, opendir, readFile } from 'node:fs/promises'
 import path from 'node:path'
-import { formatProjectPath } from './paths.ts'
+import { formatProjectPath, resolveFromRoot } from './paths.ts'
 
 export type DiscoveredDocument = {
   path: string
+  description?: string
 }
 
 const skippedDirectories = new Set([
@@ -23,6 +24,14 @@ export async function discoverAgentDocuments(root: string): Promise<DiscoveredDo
   return found
     .filter((document) => document.path !== './AGENTS.md')
     .sort((left, right) => left.path.localeCompare(right.path))
+}
+
+export async function describeAgentDocument(
+  root: string,
+  agentsDocumentPath: string,
+): Promise<DiscoveredDocument> {
+  const absolutePath = resolveFromRoot(root, agentsDocumentPath)
+  return documentEntry(root, absolutePath, await readPackageDescription(path.dirname(absolutePath)))
 }
 
 async function walk(root: string, directory: string, found: DiscoveredDocument[]): Promise<void> {
@@ -49,7 +58,13 @@ async function walk(root: string, directory: string, found: DiscoveredDocument[]
     }
 
     if (entry.isFile() && entry.name === 'AGENTS.md') {
-      found.push({ path: formatProjectPath(root, absolutePath) })
+      found.push(
+        await documentEntry(
+          root,
+          absolutePath,
+          await readPackageDescription(path.dirname(absolutePath)),
+        ),
+      )
     }
   }
 }
@@ -108,8 +123,36 @@ async function addPackageAgentsDocument(
   const agentsPath = path.join(packagePath, 'AGENTS.md')
   try {
     await access(agentsPath)
-    found.push({ path: formatProjectPath(root, agentsPath) })
+    found.push(await documentEntry(root, agentsPath, await readPackageDescription(packagePath)))
   } catch {
     // Packages without AGENTS.md are simply not candidates.
   }
+}
+
+async function documentEntry(
+  root: string,
+  agentsPath: string,
+  description: string | undefined,
+): Promise<DiscoveredDocument> {
+  return {
+    path: formatProjectPath(root, agentsPath),
+    ...(description ? { description } : {}),
+  }
+}
+
+async function readPackageDescription(packagePath: string): Promise<string | undefined> {
+  try {
+    const source = await readFile(path.join(packagePath, 'package.json'), 'utf8')
+    const parsed = JSON.parse(source) as unknown
+    if (!isPackageJson(parsed) || typeof parsed.description !== 'string') return undefined
+
+    const description = parsed.description.trim()
+    return description && description.length > 0 ? description : undefined
+  } catch {
+    return undefined
+  }
+}
+
+function isPackageJson(value: unknown): value is Record<string, unknown> {
+  return typeof value === 'object' && value !== null
 }
