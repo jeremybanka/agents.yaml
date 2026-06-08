@@ -30,7 +30,10 @@ version: 1
 
 documents:
   - path: ./node_modules/react/AGENTS.md
+    description: React is a JavaScript library for building user interfaces.
 ```
+
+Descriptions are optional breadcrumbs, usually copied from the package's `package.json`, that make lesser-known package guidance easier to recognize at a glance. Only `path` activates a supplemental guidance document.
 
 Add this breadcrumb to your root `AGENTS.md`:
 

@@ -17,21 +17,42 @@ describe('agents.yaml dependency discovery', () => {
     const dependencyAgentsPath = path.join(root, 'node_modules', 'direct-lib', 'AGENTS.md')
     await mkdir(path.dirname(dependencyAgentsPath), { recursive: true })
     await writeFile(dependencyAgentsPath, '# Direct dependency guidance\n', 'utf8')
+    await writeFile(
+      path.join(root, 'node_modules', 'direct-lib', 'package.json'),
+      JSON.stringify({
+        name: 'direct-lib',
+        description: 'Direct fixtures for testing agent guidance.',
+      }),
+      'utf8',
+    )
 
     const discovered = await discoverAgentDocuments(root)
-    expect(discovered).toEqual([{ path: './node_modules/direct-lib/AGENTS.md' }])
-
-    await addDocuments(root, [
+    expect(discovered).toEqual([
       {
-        path: discovered[0]!.path,
+        path: './node_modules/direct-lib/AGENTS.md',
+        description: 'Direct fixtures for testing agent guidance.',
       },
     ])
+
+    await addDocuments(root, [discovered[0]!])
 
     await expect(loadAgentsFile(root)).resolves.toEqual({
       version: 1,
       documents: [
         {
           path: './node_modules/direct-lib/AGENTS.md',
+          description: 'Direct fixtures for testing agent guidance.',
+        },
+      ],
+    })
+
+    await addDocuments(root, [{ path: './node_modules/direct-lib/AGENTS.md' }])
+    await expect(loadAgentsFile(root)).resolves.toEqual({
+      version: 1,
+      documents: [
+        {
+          path: './node_modules/direct-lib/AGENTS.md',
+          description: 'Direct fixtures for testing agent guidance.',
         },
       ],
     })
@@ -56,6 +77,28 @@ describe('agents.yaml dependency discovery', () => {
 
     await expect(discoverAgentDocuments(root)).resolves.toEqual([
       { path: './node_modules/direct-lib/AGENTS.md' },
+    ])
+  })
+
+  it('includes scoped package descriptions when present', async () => {
+    const root = await createTempProject()
+    const dependencyPath = path.join(root, 'node_modules', '@scope', 'direct-lib')
+    await mkdir(dependencyPath, { recursive: true })
+    await writeFile(path.join(dependencyPath, 'AGENTS.md'), '# Scoped guidance\n', 'utf8')
+    await writeFile(
+      path.join(dependencyPath, 'package.json'),
+      JSON.stringify({
+        name: '@scope/direct-lib',
+        description: 'Scoped package guidance breadcrumbs.',
+      }),
+      'utf8',
+    )
+
+    await expect(discoverAgentDocuments(root)).resolves.toEqual([
+      {
+        path: './node_modules/@scope/direct-lib/AGENTS.md',
+        description: 'Scoped package guidance breadcrumbs.',
+      },
     ])
   })
 })

@@ -6,7 +6,7 @@ import {
   removeDocuments,
   validateAgentsFile,
 } from './agents-file.ts'
-import { discoverAgentDocuments } from './discover.ts'
+import { describeAgentDocument, discoverAgentDocuments } from './discover.ts'
 import { cwd, formatProjectPath, resolveFromRoot } from './paths.ts'
 
 type Command = 'add' | 'discover' | 'help' | 'init' | 'remove' | 'validate' | 'version'
@@ -127,7 +127,7 @@ async function commandDiscover(root: string, json: boolean): Promise<void> {
     return
   }
 
-  clack.note(documents.map((doc) => doc.path).join('\n'), `Found ${documents.length}`)
+  clack.note(formatDocumentList(documents), `Found ${documents.length}`)
   clack.outro('Use agents add <path> to enable one.')
 }
 
@@ -136,14 +136,24 @@ async function commandAdd(root: string, paths: string[]): Promise<void> {
     throw new Error('add requires at least one AGENTS.md path')
   }
 
-  const documents = paths.map((path) => ({
-    path: formatProjectPath(root, resolveFromRoot(root, path)),
-  }))
+  const documents = await Promise.all(
+    paths.map((path) =>
+      describeAgentDocument(root, formatProjectPath(root, resolveFromRoot(root, path))),
+    ),
+  )
 
   const file = await addDocuments(root, documents)
   clack.intro('agents add')
-  clack.note(file.documents.map((doc) => doc.path).join('\n'), 'Active documents')
+  clack.note(formatDocumentList(file.documents), 'Active documents')
   clack.outro(`Added ${documents.length} document${documents.length === 1 ? '' : 's'}.`)
+}
+
+function formatDocumentList(
+  documents: { path: string; description?: string | undefined }[],
+): string {
+  return documents
+    .map((doc) => (doc.description ? `${doc.path}\n  ${doc.description}` : doc.path))
+    .join('\n')
 }
 
 async function commandRemove(root: string, paths: string[]): Promise<void> {
