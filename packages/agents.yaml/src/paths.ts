@@ -15,9 +15,9 @@ export function formatProjectPath(root: string, target: string): string {
 		.relative(root, target)
 		.split(path.sep)
 		.join(path.posix.sep)
-	if (relative.startsWith("..")) {
+	if (relative === ".." || relative.startsWith("../")) {
 		return target
 	}
 
-	return relative.startsWith(".") ? relative : `./${relative}`
+	return relative.startsWith("./") ? relative : `./${relative}`
 }
