@@ -29,6 +29,9 @@ importers:
       '@types/node':
         specifier: 25.9.2
         version: 25.9.2
+      agents.yaml:
+        specifier: workspace:*
+        version: link:packages/agents.yaml
       dprint:
         specifier: 0.54.0
         version: 0.54.0
