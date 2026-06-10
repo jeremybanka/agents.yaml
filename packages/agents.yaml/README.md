@@ -17,11 +17,29 @@ pnpm run build
 ```sh
 agents init
 agents discover
+agents discover --include-dot-directories
 agents add ./node_modules/react/AGENTS.md
 agents validate
 ```
 
 Run `agents` with no command for the interactive flow.
+
+Discovery skips dot-prefixed directories by default so local caches and tool
+state do not dominate scan time. Use `--include-dot-directories` when you need
+to search those directories too.
+
+## Benchmark
+
+```sh
+pnpm --filter agents.yaml bench
+```
+
+The benchmark creates a temporary discovery fixture, compares default discovery
+against `--include-dot-directories`, prints median/min/max timings, and removes
+the fixture when it exits. Fixture size can be tuned with
+`AGENTS_BENCH_HIDDEN_DIRS`, `AGENTS_BENCH_FILES_PER_HIDDEN_DIR`,
+`AGENTS_BENCH_VISIBLE_PACKAGES`, `AGENTS_BENCH_ITERATIONS`, and
+`AGENTS_BENCH_WARMUPS`.
 
 ## File Format
 

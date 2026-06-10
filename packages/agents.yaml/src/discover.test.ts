@@ -132,6 +132,26 @@ describe("agents.yaml dependency discovery", () => {
 			},
 		])
 	})
+
+	it("skips dot-prefixed directories by default", async () => {
+		const root = await createTempProject()
+		const hiddenAgentsPath = path.join(root, ".cache", "AGENTS.md")
+		await mkdir(path.dirname(hiddenAgentsPath), { recursive: true })
+		await writeFile(hiddenAgentsPath, "# Hidden cache guidance\n", "utf8")
+
+		await expect(discoverAgentDocuments(root)).resolves.toEqual([])
+	})
+
+	it("can include dot-prefixed directories when requested", async () => {
+		const root = await createTempProject()
+		const hiddenAgentsPath = path.join(root, ".cache", "AGENTS.md")
+		await mkdir(path.dirname(hiddenAgentsPath), { recursive: true })
+		await writeFile(hiddenAgentsPath, "# Hidden cache guidance\n", "utf8")
+
+		await expect(
+			discoverAgentDocuments(root, { includeDotDirectories: true }),
+		).resolves.toEqual([{ path: "./.cache/AGENTS.md" }])
+	})
 })
 
 async function createTempProject(): Promise<string> {

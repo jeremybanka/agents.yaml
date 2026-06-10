@@ -19,3 +19,5 @@ Agents should treat paths listed in `documents` as promoted supplemental guidanc
 The CLI can help discover package and local `AGENTS.md` files, add selected paths to `agents.yaml`, remove paths, initialize the root breadcrumb, and validate that referenced files still exist.
 
 Discovery only considers direct dependencies under a project's `node_modules`; nested dependency `AGENTS.md` files are not automatically activated.
+
+Discovery skips dot-prefixed directories by default. Use `agents discover --include-dot-directories` when hidden project directories should be scanned too.

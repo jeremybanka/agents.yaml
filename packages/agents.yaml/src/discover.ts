@@ -7,6 +7,10 @@ export type DiscoveredDocument = {
 	description?: string
 }
 
+export type DiscoverOptions = {
+	includeDotDirectories?: boolean
+}
+
 const skippedDirectories = new Set([
 	".git",
 	".hg",
@@ -20,9 +24,10 @@ const skippedDirectories = new Set([
 
 export async function discoverAgentDocuments(
 	root: string,
+	options: DiscoverOptions = {},
 ): Promise<DiscoveredDocument[]> {
 	const found: DiscoveredDocument[] = []
-	await walk(root, root, found)
+	await walk(root, root, found, options)
 	return found
 		.filter((document) => document.path !== "./AGENTS.md")
 		.sort((left, right) => left.path.localeCompare(right.path))
@@ -44,6 +49,7 @@ async function walk(
 	root: string,
 	directory: string,
 	found: DiscoveredDocument[],
+	options: DiscoverOptions,
 ): Promise<void> {
 	let handle
 	try {
@@ -61,8 +67,8 @@ async function walk(
 				continue
 			}
 
-			if (!skippedDirectories.has(entry.name)) {
-				await walk(root, absolutePath, found)
+			if (!shouldSkipDirectory(entry.name, options)) {
+				await walk(root, absolutePath, found, options)
 			}
 			continue
 		}
@@ -77,6 +83,11 @@ async function walk(
 			)
 		}
 	}
+}
+
+function shouldSkipDirectory(name: string, options: DiscoverOptions): boolean {
+	if (skippedDirectories.has(name)) return true
+	return !options.includeDotDirectories && name.startsWith(".")
 }
 
 async function scanDirectNodeModules(

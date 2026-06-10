@@ -37,7 +37,7 @@ const helpText = `agents
 Usage:
   agents
   agents init [--force]
-  agents discover [--json]
+  agents discover [--json] [--include-dot-directories]
   agents add <path...>
   agents remove <path...>
   agents validate [--json]
@@ -62,7 +62,11 @@ export async function run(argv: string[]): Promise<void> {
 			await commandInit(root, parsed.flags.get("force") === true)
 			return
 		case "discover":
-			await commandDiscover(root, parsed.flags.get("json") === true)
+			await commandDiscover(root, {
+				json: parsed.flags.get("json") === true,
+				includeDotDirectories:
+					parsed.flags.get("include-dot-directories") === true,
+			})
 			return
 		case "add":
 			await commandAdd(root, parsed.values)
@@ -137,9 +141,14 @@ async function commandInit(root: string, force: boolean): Promise<void> {
 	clack.outro("Project breadcrumb is ready.")
 }
 
-async function commandDiscover(root: string, json: boolean): Promise<void> {
-	const documents = await discoverAgentDocuments(root)
-	if (json) {
+async function commandDiscover(
+	root: string,
+	options: { json: boolean; includeDotDirectories: boolean },
+): Promise<void> {
+	const documents = await discoverAgentDocuments(root, {
+		includeDotDirectories: options.includeDotDirectories,
+	})
+	if (options.json) {
 		console.log(JSON.stringify(documents, null, 2))
 		return
 	}

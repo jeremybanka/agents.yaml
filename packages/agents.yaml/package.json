@@ -17,6 +17,7 @@
 	],
 	"type": "module",
 	"scripts": {
+		"bench": "node src/discover.bench.ts",
 		"build": "vp pack",
 		"dev": "src/index.ts",
 		"test": "vp test"
