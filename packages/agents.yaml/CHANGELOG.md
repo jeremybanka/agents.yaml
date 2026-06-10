@@ -1,5 +1,11 @@
 # agents.yaml
 
+## 0.2.2
+
+### Patch Changes
+
+- 11a2cad: Speed up discovery by skipping dot-prefixed directories by default and add a benchmark harness for measuring discovery performance.
+
 ## 0.2.1
 
 ### Patch Changes
