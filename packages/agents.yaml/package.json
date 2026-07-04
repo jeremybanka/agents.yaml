@@ -23,7 +23,7 @@
 		"test": "vp test"
 	},
 	"dependencies": {
-		"@clack/core": "1.4.2",
+		"@clack/core": "1.4.3",
 		"@clack/prompts": "1.6.0",
 		"yaml": "2.9.0",
 		"zod": "4.4.3"
