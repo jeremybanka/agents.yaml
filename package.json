@@ -27,8 +27,8 @@
 		"dprint-plugin-markup": "0.27.3",
 		"dprint-plugin-yaml": "0.6.0",
 		"typescript": "6.0.3",
-		"vite": "npm:@voidzero-dev/vite-plus-core@0.2.3",
-		"vite-plus": "0.2.3",
+		"vite": "npm:@voidzero-dev/vite-plus-core@0.2.4",
+		"vite-plus": "0.2.4",
 		"vitest": "npm:@voidzero-dev/vite-plus-test@0.1.24"
 	},
 	"engines": {
