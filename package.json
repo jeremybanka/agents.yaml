@@ -23,7 +23,7 @@
 		"@dprint/toml": "0.8.0",
 		"@types/node": "25.9.5",
 		"agents.yaml": "workspace:*",
-		"dprint": "0.56.0",
+		"dprint": "0.56.1",
 		"dprint-plugin-markup": "0.27.3",
 		"dprint-plugin-yaml": "0.6.0",
 		"typescript": "7.0.2",
