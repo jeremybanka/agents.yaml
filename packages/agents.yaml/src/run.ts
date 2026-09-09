@@ -290,10 +290,10 @@ async function interactive(root: string): Promise<void> {
 	await commandAdd(root, selected)
 }
 
-function chooseDocumentsToEnable(
+async function chooseDocumentsToEnable(
 	options: DocumentOption[],
-): Promise<string[] | symbol | undefined> {
-	return new MultiSelectPrompt<DocumentOption>({
+): Promise<string[] | typeof clack.CANCEL_SYMBOL | undefined> {
+	const selected = await new MultiSelectPrompt<DocumentOption>({
 		options,
 		required: false,
 		render() {
@@ -317,6 +317,8 @@ ${styleText("cyan", clack.S_BAR_END)}
 `
 		},
 	}).prompt()
+
+	return typeof selected === "symbol" ? clack.CANCEL_SYMBOL : selected
 }
 
 function styleDocumentOption(
