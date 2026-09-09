@@ -25,6 +25,11 @@
 	],
 	"packageRules": [
 		{
+			"groupName": "clack",
+			"matchPackageNames": ["@clack/*"],
+			"separateMajorMinor": false
+		},
+		{
 			"matchPackageNames": ["jdx/mise"],
 			"matchDatasources": ["github-releases"],
 			"ignoreUnstable": true
