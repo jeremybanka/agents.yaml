@@ -181,8 +181,8 @@ importers:
         specifier: 0.24.0
         version: 0.24.0
       '@dprint/oxc':
-        specifier: 0.39.0
-        version: 0.39.0
+        specifier: 0.40.0
+        version: 0.40.0
       '@dprint/toml':
         specifier: 0.8.0
         version: 0.8.0
@@ -402,8 +402,8 @@ packages:
   '@dprint/markdown@0.24.0':
     resolution: {integrity: sha512-ohC0iF/k26dyaB8buKR71Ulf+HsBwSopbUTbY1jPwVGYAe/M9TuuGhALOkdmiSVtdrEf2gFkwsvvpDeayYyXzA==}
 
-  '@dprint/oxc@0.39.0':
-    resolution: {integrity: sha512-DL4PLib/K6a47liLhqfUyYiMh3YdHy7CzZm22kH+AMXK/1Y5hvXTmX14MDjlmRFmn4ImSUfdtIVVaumJzI2JpA==}
+  '@dprint/oxc@0.40.0':
+    resolution: {integrity: sha512-+sz5X6TmtOsGIEakdsM/I8xYJ1wLVW0tatgiO8ZfQsww8lpp7Mq2YY+BfDsKUeD4VYHsl+JvrRT8LiUwDvpnDg==}
 
   '@dprint/toml@0.8.0':
     resolution: {integrity: sha512-7rJeNgy4AnA5NraBd0QG5uRpoaMUyNjWoIYZXx/yolzgc8YQSusTF4t42IDUxsBLhshiMOGI4xnSkLl19Ep8EQ==}
@@ -2015,7 +2015,7 @@ snapshots:
 
   '@dprint/markdown@0.24.0': {}
 
-  '@dprint/oxc@0.39.0': {}
+  '@dprint/oxc@0.40.0': {}
 
   '@dprint/toml@0.8.0': {}
 
@@ -2496,7 +2496,7 @@ snapshots:
       sirv: 3.0.2
       std-env: 4.1.0
       tinybench: 2.9.0
-      tinyexec: 1.3.0
+      tinyexec: 1.3.1
       tinyglobby: 0.2.17
       vite: '@voidzero-dev/vite-plus-core@0.3.2(@types/node@25.9.6)(esbuild@0.28.0)(tsx@4.22.4)(typescript@7.0.2)(yaml@2.9.0)'
       ws: 8.21.0
