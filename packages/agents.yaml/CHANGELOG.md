@@ -1,5 +1,12 @@
 # agents.yaml
 
+## 0.2.3
+
+### Patch Changes
+
+- fbd062e: Update Clack dependencies and use the specific cancellation symbol type for
+  interactive document selection.
+
 ## 0.2.2
 
 ### Patch Changes
