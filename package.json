@@ -17,7 +17,7 @@
 	"devDependencies": {
 		"@changesets/cli": "3.0.3",
 		"@changesets/config": "4.0.1",
-		"@dprint/json": "0.23.0",
+		"@dprint/json": "0.24.0",
 		"@dprint/markdown": "0.24.0",
 		"@dprint/oxc": "0.40.0",
 		"@dprint/toml": "0.8.0",
@@ -31,9 +31,9 @@
 		"vite-plus": "0.3.2",
 		"vitest": "npm:@voidzero-dev/vite-plus-test@0.1.24"
 	},
+	"packageManager": "pnpm@12.4.2",
 	"engines": {
 		"node": "26.8.2",
 		"pnpm": "12.4.2"
-	},
-	"packageManager": "pnpm@12.4.2"
+	}
 }

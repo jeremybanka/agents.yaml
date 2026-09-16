@@ -6,6 +6,7 @@
 		"type": "git",
 		"url": "git+https://github.com/jeremybanka/agents.yaml.git"
 	},
+	"type": "module",
 	"bin": {
 		"agents": "./dist/index.mjs"
 	},
@@ -15,7 +16,6 @@
 		"README.md",
 		"AGENTS.md"
 	],
-	"type": "module",
 	"scripts": {
 		"bench": "node src/discover.bench.ts",
 		"build": "vp pack",
@@ -32,9 +32,9 @@
 		"@types/node": "26.6.1",
 		"typescript": "7.0.2"
 	},
+	"packageManager": "pnpm@12.4.2",
 	"engines": {
 		"node": "26.8.2",
 		"pnpm": "12.4.2"
-	},
-	"packageManager": "pnpm@12.4.2"
+	}
 }
