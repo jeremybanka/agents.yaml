@@ -4,13 +4,11 @@ export default defineConfig({
 	pack: {
 		clean: true,
 		deps: {
-			dts: {
-				neverBundle: [/^[\w@]/],
-			},
 			neverBundle: true,
 			onlyBundle: [],
 		},
-		dts: true,
+		// This executable has no library exports. `vp check` type-checks the source.
+		dts: false,
 		entry: ["src/index.ts"],
 		format: "esm",
 		outDir: "dist",

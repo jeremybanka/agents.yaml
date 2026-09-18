@@ -21,3 +21,7 @@ The CLI can help discover package and local `AGENTS.md` files, add selected path
 Discovery only considers direct dependencies under a project's `node_modules`; nested dependency `AGENTS.md` files are not automatically activated.
 
 Discovery skips dot-prefixed directories by default. Use `agents discover --include-dot-directories` when hidden project directories should be scanned too.
+
+The CLI uses Comline for command definitions, options, variadic path arguments, help, and shell completion. Clack handles the interactive flow. Pass full runtime argv to `run`; Comline removes the runtime and entry-point arguments.
+
+`add` and `remove` require one or more paths. Use `--` before dash-prefixed paths. Unknown or misplaced options fail before command execution. Both text and JSON validation set a nonzero exit status when the index is invalid.
