@@ -1,5 +1,6 @@
 import { MultiSelectPrompt } from "@clack/core"
 import * as clack from "@clack/prompts"
+import { completionResponse, help } from "comline"
 import { styleText } from "node:util"
 import {
 	addDocuments,
@@ -8,23 +9,9 @@ import {
 	removeDocuments,
 	validateAgentsFile,
 } from "./agents-file.ts"
+import { agents, earlyCommand, packageVersion } from "./cli.ts"
 import { describeAgentDocument, discoverAgentDocuments } from "./discover.ts"
 import { cwd, formatProjectPath, resolveFromRoot } from "./paths.ts"
-
-type Command =
-	| "add"
-	| "discover"
-	| "help"
-	| "init"
-	| "remove"
-	| "validate"
-	| "version"
-
-type ParsedArgs = {
-	command: Command | undefined
-	values: string[]
-	flags: Map<string, string | boolean>
-}
 
 type DocumentOption = {
 	value: string
@@ -32,106 +19,58 @@ type DocumentOption = {
 	disabled?: boolean
 }
 
-const helpText = `agents
-
-Usage:
-  agents
-  agents init [--force]
-  agents discover [--json] [--include-dot-directories]
-  agents add <path...>
-  agents remove <path...>
-  agents validate [--json]
-
-agents.yaml is a curated table of contents for promoted AGENTS.md guidance.`
-
 export async function run(argv: string[]): Promise<void> {
-	const parsed = parseArgs(argv)
+	const completion = await completionResponse(agents.definition, argv)
+	if (completion !== undefined) {
+		process.stdout.write(completion)
+		return
+	}
+
+	const early = earlyCommand(argv)
+	if (early === "help") {
+		console.log(help(agents.definition))
+		return
+	}
+	if (early === "version") {
+		console.log(packageVersion())
+		return
+	}
+
+	const { inputs, warnings } = agents(argv)
+	if (warnings.length > 0) {
+		throw new Error(warnings.map((warning) => warning.message).join("\n"))
+	}
 	const root = cwd()
 
-	switch (parsed.command) {
-		case undefined:
+	switch (inputs.case) {
+		case "":
 			await interactive(root)
 			return
 		case "help":
-			console.log(helpText)
+			console.log(help(agents.definition))
 			return
 		case "version":
-			console.log("0.1.0")
+			console.log(packageVersion())
 			return
 		case "init":
-			await commandInit(root, parsed.flags.get("force") === true)
+			await commandInit(root, inputs.opts.force)
 			return
 		case "discover":
 			await commandDiscover(root, {
-				json: parsed.flags.get("json") === true,
-				includeDotDirectories:
-					parsed.flags.get("include-dot-directories") === true,
+				json: inputs.opts.json,
+				includeDotDirectories: inputs.opts["include-dot-directories"],
 			})
 			return
-		case "add":
-			await commandAdd(root, parsed.values)
+		case "add/$...paths":
+			await commandAdd(root, inputs.params.paths)
 			return
-		case "remove":
-			await commandRemove(root, parsed.values)
+		case "remove/$...paths":
+			await commandRemove(root, inputs.params.paths)
 			return
 		case "validate":
-			await commandValidate(root, parsed.flags.get("json") === true)
+			await commandValidate(root, inputs.opts.json)
 			return
 	}
-}
-
-function parseArgs(argv: string[]): ParsedArgs {
-	const flags = new Map<string, string | boolean>()
-	const values: string[] = []
-	let command: Command | undefined
-
-	for (let index = 0; index < argv.length; index += 1) {
-		const arg = argv[index]
-		if (!arg) continue
-
-		if (arg === "--help" || arg === "-h") {
-			command = "help"
-			continue
-		}
-
-		if (arg === "--version" || arg === "-v") {
-			command = "version"
-			continue
-		}
-
-		if (arg.startsWith("--")) {
-			const [rawName, inlineValue] = arg.slice(2).split("=", 2)
-			if (!rawName) continue
-			if (inlineValue !== undefined) {
-				flags.set(rawName, inlineValue)
-				continue
-			}
-
-			flags.set(rawName, true)
-			continue
-		}
-
-		if (!command && isCommand(arg)) {
-			command = arg
-			continue
-		}
-
-		values.push(arg)
-	}
-
-	return { command, values, flags }
-}
-
-function isCommand(value: string): value is Command {
-	return [
-		"add",
-		"discover",
-		"help",
-		"init",
-		"remove",
-		"validate",
-		"version",
-	].includes(value)
 }
 
 async function commandInit(root: string, force: boolean): Promise<void> {
@@ -216,6 +155,9 @@ async function commandRemove(root: string, paths: string[]): Promise<void> {
 
 async function commandValidate(root: string, json: boolean): Promise<void> {
 	const result = await validateAgentsFile(root)
+	if (!result.ok) {
+		process.exitCode = 1
+	}
 	if (json) {
 		console.log(JSON.stringify(result, null, 2))
 		return
@@ -232,9 +174,6 @@ async function commandValidate(root: string, json: boolean): Promise<void> {
 	clack.outro(
 		result.ok ? "agents.yaml is valid." : "agents.yaml needs attention.",
 	)
-	if (!result.ok) {
-		process.exitCode = 1
-	}
 }
 
 async function interactive(root: string): Promise<void> {

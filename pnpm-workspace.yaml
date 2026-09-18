@@ -7,6 +7,9 @@ allowBuilds:
 
 blockExoticSubdeps: true
 minimumReleaseAge: 1440
+minimumReleaseAgeExclude:
+  - comline@0.8.1
+  - treetrunks@0.1.12
 
 peerDependencyRules:
   allowAny:
