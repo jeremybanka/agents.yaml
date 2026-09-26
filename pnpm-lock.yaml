@@ -196,8 +196,8 @@ importers:
         specifier: 0.57.4
         version: 0.57.4
       dprint-plugin-markup:
-        specifier: 0.27.3
-        version: 0.27.3
+        specifier: 0.27.5
+        version: 0.27.5
       dprint-plugin-yaml:
         specifier: 0.6.0
         version: 0.6.0
@@ -1464,8 +1464,8 @@ packages:
   dom-accessibility-api@0.5.16:
     resolution: {integrity: sha512-X7BJ2yElsnOJ30pZF4uIIDfBEVgF4XEBxL9Bxhy6dnrm5hkzqmsWHGTiHqRiITNhMyFLyAiWndIJP7Z1NTteDg==}
 
-  dprint-plugin-markup@0.27.3:
-    resolution: {integrity: sha512-uN0An1G9qyETguOTGg50JKsOeX77HJ3wLpTLYFeFNqBgVDN63eSxh4kU/S95MskpY1iBzMTsXG233ummLue9iw==}
+  dprint-plugin-markup@0.27.5:
+    resolution: {integrity: sha512-kvydX+uwpqVddbC18VJDG8baC6BB4Kdi2GONX3xbMws8ebyy9FL4m7WecJ207eB7oqtFJNdEOw93EklkuJCqag==}
 
   dprint-plugin-yaml@0.6.0:
     resolution: {integrity: sha512-jFCM6LxutTjfiSR7BtDhbZA2OvuqYY9xksULg0vdu0nZV1hiaupvRfJHGZSiQS9aLmqMNc+5WcHpOBSwxCK7qQ==}
@@ -2650,7 +2650,7 @@ snapshots:
 
   dom-accessibility-api@0.5.16: {}
 
-  dprint-plugin-markup@0.27.3: {}
+  dprint-plugin-markup@0.27.5: {}
 
   dprint-plugin-yaml@0.6.0: {}
 
