@@ -11,7 +11,7 @@ import {
 import { tmpdir } from "node:os"
 import path from "node:path"
 import { fileURLToPath } from "node:url"
-import { afterEach, beforeEach, describe, expect, it, vi } from "vitest"
+import { afterEach, beforeEach, describe, expect, it, vi } from "vite-plus/test"
 import { loadAgentsFile, saveAgentsFile } from "./agents-file.ts"
 import { agents } from "./cli.ts"
 import { run } from "./run.ts"
