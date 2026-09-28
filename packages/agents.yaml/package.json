@@ -20,7 +20,8 @@
 		"bench": "node src/discover.bench.ts",
 		"build": "vp pack",
 		"dev": "src/index.ts",
-		"test": "vp test"
+		"test": "vp test",
+		"test:watch": "vp test watch"
 	},
 	"dependencies": {
 		"@clack/core": "1.5.1",

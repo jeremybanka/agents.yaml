@@ -5,14 +5,21 @@
 	"scripts": {
 		"build": "vp run -r build",
 		"change": "changeset",
-		"check": "vp check --no-fmt",
+		"check": "pnpm run \"/^check:.*/\"",
+		"check:fmt": "dprint check",
+		"check:oxlint": "vp check --no-fmt",
 		"fmt": "dprint fmt",
-		"fmt:check": "dprint check",
-		"lint": "vp lint",
-		"release": "pnpm build && changeset publish",
+		"fmt:check": "pnpm run check:fmt",
+		"lint": "pnpm run check:oxlint",
+		"release": "pnpm run release:publish",
+		"release:publish": "pnpm build && changeset publish",
+		"release:version": "changeset version",
 		"staged": "vp staged",
 		"test": "vp run -r test",
-		"workflows": "./scripts/upgrade-workflows.node.ts"
+		"test:watch": "vp run -r --parallel --no-cache test:watch",
+		"verify": "pnpm run check && pnpm run test && pnpm run build",
+		"workflows": "pnpm run workflows:update",
+		"workflows:update": "./scripts/upgrade-workflows.node.ts"
 	},
 	"devDependencies": {
 		"@changesets/cli": "3.0.3",
