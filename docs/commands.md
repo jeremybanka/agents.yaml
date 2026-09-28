@@ -19,7 +19,9 @@ Run these commands from the repository root with `pnpm run <command>`. `mise.tom
 ## Static checks
 
 - `check:fmt`: `dprint check`.
-- `check:oxlint`: `vp check --no-fmt`.
+- `check:vp`: `vp check --no-fmt`.
+
+`check:vp` invokes the configured Vite Plus validation pipeline; `check:fmt` handles formatting separately.
 
 ## Verification
 
