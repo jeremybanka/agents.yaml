@@ -9,16 +9,12 @@
 		"check:fmt": "dprint check",
 		"check:vp": "vp check --no-fmt",
 		"fmt": "dprint fmt",
-		"fmt:check": "pnpm run check:fmt",
-		"lint": "pnpm run check:vp",
-		"release": "pnpm run release:publish",
 		"release:publish": "pnpm build && changeset publish",
 		"release:version": "changeset version",
 		"staged": "vp staged",
 		"test": "vp run -r test",
 		"test:watch": "vp run -r --parallel --no-cache test:watch",
 		"verify": "pnpm run check && pnpm run test && pnpm run build",
-		"workflows": "pnpm run workflows:update",
 		"workflows:update": "./scripts/upgrade-workflows.node.ts"
 	},
 	"devDependencies": {
