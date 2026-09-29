@@ -232,8 +232,8 @@ importers:
         specifier: 1.8.1
         version: 1.8.1
       comline:
-        specifier: 0.8.1
-        version: 0.8.1(zod@4.6.5)
+        specifier: 0.9.0
+        version: 0.9.0(zod@4.6.5)
       yaml:
         specifier: 2.9.1
         version: 2.9.1
@@ -1353,8 +1353,8 @@ packages:
     resolution: {integrity: sha512-NUPRluOfOiTKBKvWPtSD4PhFvWCqOi0BGStNWs57X9js7XGTprSmFoz5F0tWhR4WPjNeR9jXqdC7/UpSJTnlRg==}
     engines: {node: '>=18'}
 
-  comline@0.8.1:
-    resolution: {integrity: sha512-FSg4FZRIC4WOlN4Kg8KPLBufj+2crxZ/ZC+Q97rP1q+kEWOBnSaVJuc1rCM/JHx2KVtHd3Jaap9lpTlYAZwdDg==}
+  comline@0.9.0:
+    resolution: {integrity: sha512-PB6CjpeJqSzKL4XZ6kjlGE3G5bcBDZjRQcDoPwKsQT1VloTOQ9Q4EhkJFi0Ng39bFDB7I928qfOZ9LrDYaDc5A==}
     peerDependencies:
       arktype: ^2.1.28
       zod: ^4.2.0
@@ -2496,7 +2496,7 @@ snapshots:
 
   chai@6.2.2: {}
 
-  comline@0.8.1(zod@4.6.5):
+  comline@0.9.0(zod@4.6.5):
     dependencies:
       '@standard-schema/spec': 1.1.0
       treetrunks: 0.1.12
