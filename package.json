@@ -26,7 +26,7 @@
 		"@types/node": "26.6.5",
 		"agents.yaml": "workspace:*",
 		"dprint": "0.63.0",
-		"dprint-plugin-markup": "0.27.5",
+		"dprint-plugin-markup": "0.27.6",
 		"dprint-plugin-yaml": "0.6.0",
 		"typescript": "7.0.2",
 		"vite": "catalog:",
