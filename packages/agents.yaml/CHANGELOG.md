@@ -1,5 +1,11 @@
 # agents.yaml
 
+## 0.3.1
+
+### Patch Changes
+
+- e7d854c: Use Node 26.12.1, which blocks certificate chains containing the compromised eMudhra intermediate CA keys.
+
 ## 0.3.0
 
 ### Minor Changes
