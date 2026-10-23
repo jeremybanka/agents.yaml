@@ -232,8 +232,8 @@ importers:
         specifier: 1.8.1
         version: 1.8.1
       comline:
-        specifier: 0.9.0
-        version: 0.9.0(zod@4.6.7)
+        specifier: 0.9.1
+        version: 0.9.1(zod@4.6.7)
       yaml:
         specifier: 2.9.1
         version: 2.9.1
@@ -1321,8 +1321,8 @@ packages:
     resolution: {integrity: sha512-XWAtwJ6OHO+tj0EKCs0Y2UamnyOxseZWltU4x2U2wh8g4AigdjwvtUjvLP2tqkA/avxHEtzxNaqGq/YGNwckKg==}
     engines: {node: '>=18'}
 
-  comline@0.9.0:
-    resolution: {integrity: sha512-PB6CjpeJqSzKL4XZ6kjlGE3G5bcBDZjRQcDoPwKsQT1VloTOQ9Q4EhkJFi0Ng39bFDB7I928qfOZ9LrDYaDc5A==}
+  comline@0.9.1:
+    resolution: {integrity: sha512-RbB0sJLMiTHe02VpHLK3RmXUk9Y/Jw5H35yx9X8rVWM7SQKDaSJ6AgIY1TbjhbduXhPrJEeiBbInvuYep5I9jw==}
     peerDependencies:
       arktype: ^2.1.28
       zod: ^4.2.0
@@ -1629,8 +1629,8 @@ packages:
     resolution: {integrity: sha512-sf4i37nQ2LBx4m3wB74y+ubopq6W/dIzXg0FDGjsYnZHVa1Da8FH853wlL2gtUhg+xJXjfk3kUZS3BRoQeoQBQ==}
     engines: {node: '>=6'}
 
-  treetrunks@0.1.12:
-    resolution: {integrity: sha512-x9XbZAus9Y4y7WRke6DwOrxmAxrwXNVv/wSmO9aNEfO92gu4Jau/4lmfXE1untxNle1WygPX2wriCtf+oYKMmg==}
+  treetrunks@0.1.13:
+    resolution: {integrity: sha512-mnGpuYAWH+EMci3E+4B9nd9K57mR4zSNmTrkzyJwTEmnN75TllJGgVb632unrp2AOfZ/ksgvombhwGH1bERhzw==}
 
   tsx@4.22.4:
     resolution: {integrity: sha512-X8EX+XV4QR5xCsrgxaED954zTDfY8KqlDtskKEL0cHhyS/P8b4IFOvGDQpsC9Q1XnLq915wEfwwY/zzskCtmhg==}
@@ -2438,10 +2438,10 @@ snapshots:
 
   chai@6.3.0: {}
 
-  comline@0.9.0(zod@4.6.7):
+  comline@0.9.1(zod@4.6.7):
     dependencies:
       '@standard-schema/spec': 1.1.0
-      treetrunks: 0.1.12
+      treetrunks: 0.1.13
     optionalDependencies:
       zod: 4.6.7
 
@@ -2731,7 +2731,7 @@ snapshots:
 
   totalist@3.0.1: {}
 
-  treetrunks@0.1.12: {}
+  treetrunks@0.1.13: {}
 
   tsx@4.22.4:
     dependencies:
