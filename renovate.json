@@ -25,6 +25,10 @@
 	],
 	"packageRules": [
 		{
+			"groupName": "dprint",
+			"matchPackageNames": ["dprint", "@dprint/*", "/^dprint-plugin-/"]
+		},
+		{
 			"groupName": "clack",
 			"matchPackageNames": ["@clack/*"],
 			"separateMajorMinor": false
